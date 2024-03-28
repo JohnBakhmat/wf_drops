@@ -57,7 +57,10 @@ fn parse_rows(text: String) -> Result(List(Drop), Nil) {
 }
 
 pub fn parse_string(text: String) -> Result(Relic, Nil) {
+  let text = string.trim(text)
+
   use #(title, rest) <- result.try(split_after_title(text))
   use drops <- result.try(parse_rows(rest))
+
   Ok(Relic(title, drops))
 }
