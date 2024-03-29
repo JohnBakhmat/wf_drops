@@ -20,24 +20,17 @@ fn split_after_title(text: String) -> Result(#(String, String), Nil) {
   |> string.split_once("</th></tr>")
 }
 
-const tr_split = "\u{1F600}"
-
-const td_split = "\u{1F500}"
 
 fn parse_rows(text: String) -> Result(List(Drop), Nil) {
   let assert Ok(number_regex) = regex.from_string("\\d+\\.\\d+")
   text
   |> string.trim()
-  |> string.drop_left(4)
+  |> string.drop_left(8)
   |> string.drop_right(5)
-  |> string.replace("</tr><tr>", tr_split)
-  |> string.replace("</td><td>", td_split)
-  |> string.split(tr_split)
+  |> string.split("</td></tr><tr><td>")
   |> list.map(fn(row) {
     row
-    |> string.drop_left(4)
-    |> string.drop_right(5)
-    |> string.split_once(td_split)
+    |> string.split_once("</td><td>")
     |> result.map(fn(res) {
       let #(item, chance) = res
 
