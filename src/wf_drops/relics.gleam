@@ -20,7 +20,6 @@ fn split_after_title(text: String) -> Result(#(String, String), Nil) {
   |> string.split_once("</th></tr>")
 }
 
-
 fn parse_rows(text: String) -> Result(List(Drop), Nil) {
   let assert Ok(number_regex) = regex.from_string("\\d+\\.\\d+")
   text
