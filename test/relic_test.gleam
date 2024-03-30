@@ -1,6 +1,8 @@
 import gleeunit/should
 import gleam/list
 import wf_drops/relics.{Drop, Relic}
+import simplifile
+import gleam/string
 
 pub fn parse_relic_string_test() {
   let input =
@@ -49,4 +51,14 @@ pub fn parse_relic_table_test() {
   |> should.be_ok
   |> list.length
   |> should.equal(8)
+}
+
+pub fn real_parse_test() {
+  let assert Ok(data) = simplifile.read("./relics.html")
+
+  data
+  |> string.trim()
+  |> string.crop("<tr>")
+  |> relics.parse_table
+  |> should.be_ok
 }
