@@ -20,7 +20,7 @@ fn split_after_title(text: String) -> Result(#(String, String), Nil) {
   |> string.split_once("</th></tr>")
 }
 
-fn parse_rows(text: String) -> Result(List(Drop), Nil) {
+fn parse_drops(text: String) -> Result(List(Drop), Nil) {
   let assert Ok(number_regex) = regex.from_string("\\d+\\.\\d+")
   text
   |> string.trim()
@@ -52,7 +52,22 @@ pub fn parse_string(text: String) -> Result(Relic, Nil) {
   let text = string.trim(text)
 
   use #(title, rest) <- result.try(split_after_title(text))
-  use drops <- result.try(parse_rows(rest))
+  use drops <- result.try(parse_drops(rest))
 
   Ok(Relic(title, drops))
+}
+
+const blank_row = "<tr class=\"blank-row\"><td class=\"blank-row\" colspan=\"2\"></td></tr>"
+
+pub fn parse_table(text: String) -> Result(List(Relic), Nil) {
+  text
+  |> string.trim
+  |> string.split(blank_row)
+  |> list.filter(fn(x) { string.length(x) > 10 })
+  |> list.map(fn(row) {
+    row
+    |> string.trim
+    |> parse_string
+  })
+  |> result.all
 }
