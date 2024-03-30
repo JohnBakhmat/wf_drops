@@ -47,7 +47,7 @@ fn parse_drops(text: String) -> Result(List(Drop), Nil) {
   |> result.all()
 }
 
-pub fn parse_string(text: String) -> Result(Relic, Nil) {
+fn parse_string(text: String) -> Result(Relic, Nil) {
   let text = string.trim(text)
 
   use #(title, rest) <- result.try(split_after_title(text))
