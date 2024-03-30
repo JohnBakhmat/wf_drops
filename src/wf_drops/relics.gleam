@@ -2,7 +2,6 @@ import gleam/list
 import gleam/float
 import gleam/regex
 import gleam/string
-import gleam/io
 import gleam/result
 
 pub type Relic {
