@@ -1,4 +1,3 @@
-import gleam/io
 import gleam/string
 import gleam/list
 import gleam/result
@@ -14,6 +13,21 @@ fn parse_title(text: String) -> String {
   text
   |> string.crop("Level")
   |> string.drop_right(string.length("</th></tr>"))
+}
+
+fn parse_rewards(text: String) -> List(Drop) {
+  text
+  |> string.split("</tr><tr><td></td>")
+  |> list.filter(fn(x) { string.length(x) > 5 })
+  |> list.map(fn(drop) {
+    let assert Ok(#(item, raw_chance)) =
+      drop
+      |> string.drop_left(string.length("<td>"))
+      |> string.drop_right(string.length("</td>"))
+      |> string.split_once("</td><td>")
+
+    relics.Drop(item, relics.parse_chance(raw_chance))
+  })
 }
 
 pub fn parse_table(text: String) -> Result(AlbrechtBountyReward, Nil) {
@@ -36,5 +50,7 @@ pub fn parse_table(text: String) -> Result(AlbrechtBountyReward, Nil) {
     |> string.split_once(split_string)
 
   let title = parse_title(raw_title)
-  Error(Nil)
+  let rewards = parse_rewards(raw_rewards)
+
+  Ok(Reward(title, rewards))
 }

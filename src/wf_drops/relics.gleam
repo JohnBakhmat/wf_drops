@@ -19,8 +19,19 @@ fn split_after_title(text: String) -> Result(#(String, String), Nil) {
   |> string.split_once("</th></tr>")
 }
 
-fn parse_drops(text: String) -> Result(List(Drop), Nil) {
+pub fn parse_chance(text: String) -> Float {
   let assert Ok(number_regex) = regex.from_string("\\d+\\.\\d+")
+
+  text
+  |> regex.scan(with: number_regex)
+  |> list.map(fn(match) { match.content })
+  |> list.first
+  |> result.map(float.parse)
+  |> result.flatten
+  |> result.unwrap(0.0)
+}
+
+fn parse_drops(text: String) -> Result(List(Drop), Nil) {
   text
   |> string.trim()
   |> string.drop_left(string.length("<tr><td>"))
@@ -30,18 +41,8 @@ fn parse_drops(text: String) -> Result(List(Drop), Nil) {
     row
     |> string.split_once("</td><td>")
     |> result.map(fn(res) {
-      let #(item, chance) = res
-
-      let chance_number =
-        chance
-        |> regex.scan(with: number_regex)
-        |> list.map(fn(match) { match.content })
-        |> list.first
-        |> result.map(float.parse)
-        |> result.flatten
-        |> result.unwrap(0.0)
-
-      Drop(item, chance_number)
+      let #(item, raw_chance) = res
+      Drop(item, parse_chance(raw_chance))
     })
   })
   |> result.all()
