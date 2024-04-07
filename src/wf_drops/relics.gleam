@@ -15,7 +15,7 @@ pub type Drop {
 fn split_after_title(text: String) -> Result(#(String, String), Nil) {
   text
   |> string.crop("\">")
-  |> string.drop_left(2)
+  |> string.drop_left(string.length("\">"))
   |> string.split_once("</th></tr>")
 }
 
@@ -23,8 +23,8 @@ fn parse_drops(text: String) -> Result(List(Drop), Nil) {
   let assert Ok(number_regex) = regex.from_string("\\d+\\.\\d+")
   text
   |> string.trim()
-  |> string.drop_left(8)
-  |> string.drop_right(5)
+  |> string.drop_left(string.length("<tr><td>"))
+  |> string.drop_right(string.length("</td></tr>"))
   |> string.split("</td></tr><tr><td>")
   |> list.map(fn(row) {
     row
@@ -36,9 +36,9 @@ fn parse_drops(text: String) -> Result(List(Drop), Nil) {
         chance
         |> regex.scan(with: number_regex)
         |> list.map(fn(match) { match.content })
-        |> list.first()
+        |> list.first
         |> result.map(float.parse)
-        |> result.flatten()
+        |> result.flatten
         |> result.unwrap(0.0)
 
       Drop(item, chance_number)
