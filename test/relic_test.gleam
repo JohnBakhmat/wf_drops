@@ -1,8 +1,8 @@
 import gleeunit/should
 import gleam/list
-import wf_drops/relics.{Drop, Relic}
 import simplifile
 import gleam/string
+import wf_drops/relics.{Drop, Relic}
 
 pub fn parse_relic_string_test() {
   let input =
