@@ -48,6 +48,7 @@ fn parse_drops(text: String) -> Result(List(Drop), Nil) {
   |> result.all()
 }
 
+/// Call a function to parse a row of relic table
 pub fn parse_string(text: String) -> Result(Relic, Nil) {
   let text = string.trim(text)
 
@@ -59,6 +60,7 @@ pub fn parse_string(text: String) -> Result(Relic, Nil) {
 
 const blank_row = "<tr class=\"blank-row\"><td class=\"blank-row\" colspan=\"2\"></td></tr>"
 
+/// Call a function to parse innerHTML of <table> element
 pub fn parse_table(text: String) -> Result(List(Relic), Nil) {
   text
   |> string.trim
