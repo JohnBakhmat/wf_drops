@@ -1,8 +1,8 @@
-import gleam/string
 import gleam/list
-import gleam/result
 import gleam/option
 import gleam/regex
+import gleam/result
+import gleam/string
 import wf_drops/relics.{type Drop}
 
 pub type AlbrechtBountyReward {

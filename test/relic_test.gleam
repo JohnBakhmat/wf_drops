@@ -1,7 +1,7 @@
-import gleeunit/should
 import gleam/list
-import simplifile
 import gleam/string
+import gleeunit/should
+import simplifile
 import wf_drops/relics.{Drop, Relic}
 
 pub fn parse_relic_string_test() {

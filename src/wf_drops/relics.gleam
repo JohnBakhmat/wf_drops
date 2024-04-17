@@ -1,8 +1,8 @@
-import gleam/list
 import gleam/float
+import gleam/list
 import gleam/regex
-import gleam/string
 import gleam/result
+import gleam/string
 
 pub type Relic {
   Relic(name: String, drops: List(Drop))

@@ -1,9 +1,9 @@
 import gleam/io
-import gleam/string
 import gleam/list
 import gleam/result
-import wf_drops/relics
+import gleam/string
 import simplifile
+import wf_drops/relics
 
 const blank_row = "<tr class=\"blank-row\"><td class=\"blank-row\" colspan=\"2\"></td></tr>"
 
